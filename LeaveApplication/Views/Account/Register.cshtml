@@ -1,0 +1,71 @@
+﻿@model RegisterViewModel
+
+
+<section class="tz-register">
+    <div class="log-in-pop">
+        <div class="log-in-pop-left">
+            <h1>Hello... <span>Welcome to NaijaFarmers</span></h1>
+            <p>Don't have an account? Create your account. It's take less then a minutes</p>
+            <h4>Login with social media</h4>
+            <ul>
+                <li>
+                    <a href="#"><i class="fa fa-facebook"></i> Facebook</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-google"></i> Google+</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+            </ul>
+        </div>
+        <div class="log-in-pop-right">
+            <a href="#" class="pop-close" data-dismiss="modal">
+                <img src="../images/cancel.png" alt="" />
+            </a>
+            <h4>Create an Account</h4>
+            <p>Don't have an account? Create your account. It's take less then a minutes</p>
+            <form class="s12" method="post">
+                <div asp-validation-summary ="All" class="text-danger"> </div>
+                <div>
+                    <div class="input-field s12">
+                        <input type="text" asp-for="UserName" data-ng-model="name1" required class="validate">
+                        <label asp-for="UserName">User name</label>
+                        <span asp-validation-for="UserName" class="text-danger"> </span>
+                    </div>
+                </div>
+                <div>
+                    <div class="input-field s12">
+                        <input type="email" asp-for="Email" required class="validate">
+                        <label asp-for="Email">Email id</label>
+                        <span asp-validation-for="Email" class="text-danger"> </span>
+                    </div>
+                </div>
+                <div>
+                    <div class="input-field s12">
+                        <input type="password" asp-for="Password" required class="validate">
+                        <label asp-for="Password">Password</label>
+                        <span asp-validation-for="Password" class="text-danger"> </span>
+                    </div>
+                </div>
+                <div>
+                    <div class="input-field s12">
+                        <input asp-for="ConfirmPassword" type="password" required class="validate">
+                        <label asp-for="ConfirmPassword">Confirm password</label>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"> </span>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="input-field s4">
+                        <input type="submit" value="Register" class="waves-effect waves-light log-in-btn">
+                    </div>
+                </div>
+                <div>
+                    <div class="input-field s12"> <a asp-action="Login" asp-controller="account">Are you a already member ? Login</a> </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
