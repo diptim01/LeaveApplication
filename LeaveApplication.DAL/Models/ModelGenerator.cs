@@ -37,7 +37,7 @@ namespace LeaveApplication.DAL.Models
 		public virtual string FirstName { get; set; }
 		public virtual string LastName { get; set; }
 		public virtual string StaffId { get; set; }
-		public virtual int? LineManager { get; set; }
+		public virtual string LineManager { get; set; }
 		public virtual int? LeaveBalance { get; set; }
 	}
 

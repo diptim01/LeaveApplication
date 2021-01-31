@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using LeaveApplication.DAL.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Primitives;
 using NaijaFarmers.Models;
 using System;
 using System.Collections.Generic;
@@ -19,7 +22,8 @@ namespace LeaveApplication.Controllers
 
         public IActionResult Index()
         {
-           var allStaffs = _context.StaffInformation.ToList();
+            var allStaffs = _context.StaffInformation.ToList();
+
             return View(allStaffs);
         }
 
@@ -27,12 +31,14 @@ namespace LeaveApplication.Controllers
         // GET: HomeController1/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var staff = _context.StaffInformation.Find(id);
+            return View(staff);
         }
 
         // GET: HomeController1/Create
         public ActionResult Create()
         {
+            ViewBag.staffList = _context.StaffInformation.Select(x => new SelectListItem { Text = x.StaffId, Value = x.StaffId }).ToList();
             return View();
         }
 
@@ -43,6 +49,25 @@ namespace LeaveApplication.Controllers
         {
             try
             {
+                StaffInformation staffInformation = new StaffInformation()
+                {
+                    FirstName = collection["FirstName"],
+                    StaffId = collection["StaffId"],
+                    LastName = collection["LastName"],
+                    LeaveBalance = collection["LeaveBalance"] == StringValues.Empty ? 0 : Convert.ToInt32(collection["LeaveBalance"]),
+                    LineManager = collection["LineManager"]
+                };
+
+                if(_context.StaffInformation.Any(x => x.StaffId.ToLower() == staffInformation.StaffId.ToLower()))
+                {
+                    return View();
+                }
+
+                _context.StaffInformation.Add(staffInformation);
+
+                _context.SaveChanges();
+
+
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -54,7 +79,10 @@ namespace LeaveApplication.Controllers
         // GET: HomeController1/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var staff = _context.StaffInformation.FirstOrDefault(x => x.Id == id);
+            ViewBag.staffList = _context.StaffInformation.Select(x => new SelectListItem { Text = x.StaffId, Value = x.StaffId }).ToList();
+
+            return View(staff);
         }
 
         // POST: HomeController1/Edit/5
@@ -64,10 +92,30 @@ namespace LeaveApplication.Controllers
         {
             try
             {
+                var staff = _context.StaffInformation.Find(id);
+
+                if (staff == null)
+                {
+                    return View();
+                }
+
+                staff.Id = id;
+                staff.FirstName = collection["FirstName"];
+                staff.StaffId = collection["StaffId"];
+                staff.LastName = collection["LastName"];
+                staff.LeaveBalance = collection["LeaveBalance"] == StringValues.Empty ? 0 : Convert.ToInt32(collection["LeaveBalance"]);
+                staff.LineManager = collection["LineManager"];
+
+
+                _context.StaffInformation.Update(staff);
+
+                _context.SaveChanges();
+
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
+                var msg = ex.Message;
                 return View();
             }
         }
@@ -75,7 +123,8 @@ namespace LeaveApplication.Controllers
         // GET: HomeController1/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var staff = _context.StaffInformation.Find(id);
+            return View(staff);
         }
 
         // POST: HomeController1/Delete/5
@@ -85,6 +134,11 @@ namespace LeaveApplication.Controllers
         {
             try
             {
+                var staff = _context.StaffInformation.Find(id);
+
+                _context.StaffInformation.Remove(staff);
+                _context.SaveChanges();
+
                 return RedirectToAction(nameof(Index));
             }
             catch
