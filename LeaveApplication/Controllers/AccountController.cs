@@ -46,7 +46,7 @@ namespace NaijaFarmers.Controllers
 
                     _context.StaffInformation.Add(new LeaveApplication.DAL.Models.StaffInformation { StaffId = model.UserName });
                     _context.SaveChanges();
-                    return RedirectToAction("Index", "Dashboard");
+                    return RedirectToAction("Index", "LeaveDashboard");
                 }
 
                 foreach (var error in result.Errors)
@@ -105,7 +105,7 @@ namespace NaijaFarmers.Controllers
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         [AcceptVerbs("Get", "Post")]

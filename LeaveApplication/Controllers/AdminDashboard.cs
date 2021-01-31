@@ -1,5 +1,6 @@
 ﻿using LeaveApplication.DAL.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Primitives;
@@ -14,11 +15,13 @@ namespace LeaveApplication.Controllers
 {
     public class AdminDashboard : Controller
     {
-        public AdminDashboard(AppDbContext context)
+        public AdminDashboard(AppDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         private AppDbContext _context;
+        private UserManager<IdentityUser> _userManager;
 
         public IActionResult Index()
         {
@@ -137,12 +140,17 @@ namespace LeaveApplication.Controllers
                 var staff = _context.StaffInformation.Find(id);
 
                 _context.StaffInformation.Remove(staff);
+                var user = _userManager.FindByNameAsync(staff.StaffId).Result;
+                var del = _userManager.DeleteAsync(user).Result;
+
+
                 _context.SaveChanges();
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
+                var msg = ex.Message;
                 return View();
             }
         }

@@ -15,6 +15,8 @@ namespace NaijaFarmers.Models
 
         }
         public DbSet<StaffInformation> StaffInformation { get; set; }
+        public DbSet<LeaveInformation> LeaveInformation { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);  

@@ -48,7 +48,7 @@ namespace NaijaFarmers
             services.ConfigureApplicationCookie(config =>
             {
                 config.Cookie.Name = "DipoIDentitycookie";
-                config.LoginPath = "/Home/Index";
+                config.LoginPath = "/account/Login";
             });
 
 

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<LeaveApplication.DAL.Models.LeaveInformation>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p style="margin-top:50px">
+    <a asp-action="Create">Create New</a> || <a asp-action="Index" asp-controller="LeaveApproval"> Approval List</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LeaveType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LeaveStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateRequested)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateApproved)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InitialBalance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FinalBalance)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaveType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaveStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateRequested)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateApproved)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InitialBalance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FinalBalance)
+            </td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

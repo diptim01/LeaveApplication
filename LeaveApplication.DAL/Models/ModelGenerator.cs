@@ -41,4 +41,27 @@ namespace LeaveApplication.DAL.Models
 		public virtual int? LeaveBalance { get; set; }
 	}
 
+    /// <summary>
+    /// A class which represents the LeaveInformation table.
+    /// </summary>
+	[Table("LeaveInformation")]
+	public partial class LeaveInformation
+	{
+		[Key]
+		public virtual int Id { get; set; }
+		public virtual string LeaveType { get; set; }
+		public virtual string LeaveStatus { get; set; }
+		public virtual DateTime? DateRequested { get; set; }
+		public virtual DateTime? DateApproved { get; set; }
+		public virtual int? InitialBalance { get; set; }
+		public virtual int? FinalBalance { get; set; }
+		public virtual string StaffId { get; set; }
+		public virtual string LineManager { get; set; }
+		public virtual int? LeaveDays { get; set; }
+		public virtual bool? IsProcessed { get; set; }
+		public virtual DateTime LeaveFrom { get; set; }
+		public virtual DateTime LeaveTo { get; set; }
+		public virtual bool? AwaitingApproval { get; set; }
+	}
+
 }
