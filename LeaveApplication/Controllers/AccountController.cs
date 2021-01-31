@@ -13,11 +13,13 @@ namespace NaijaFarmers.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
+        private AppDbContext _context;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, AppDbContext dbContext)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            _context = dbContext;
         }
         [HttpGet]
         public IActionResult Register()
@@ -41,6 +43,9 @@ namespace NaijaFarmers.Controllers
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user, isPersistent: false);
+
+                    _context.StaffInformation.Add(new LeaveApplication.DAL.Models.StaffInformation { StaffId = model.UserName });
+                    _context.SaveChanges();
                     return RedirectToAction("Index", "Dashboard");
                 }
 
@@ -69,12 +74,19 @@ namespace NaijaFarmers.Controllers
                 if (ModelState.IsValid)
                 {
 
+                    //if(model.UserName == "" && model.Password == "")
+                    //{
+                    //    signInManager.
+                    //}
+
                     var result = await signInManager.PasswordSignInAsync(model.UserName, model.Password,
                         model.RememberMe, false);
 
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index", "Dashboard");
+                        if(model.UserName.ToLower() == "admin")
+                            return RedirectToAction("Index", "AdminDashboard");
+                        return RedirectToAction("Index", "LeaveDashboard");
                     }
 
                     ModelState.AddModelError("", "Invalid login Attempt!");

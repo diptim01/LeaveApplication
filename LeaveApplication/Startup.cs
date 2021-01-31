@@ -27,7 +27,7 @@ namespace NaijaFarmers
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(
-                options => options.UseSqlServer(_config.GetConnectionString("NaijaFarmerDBConnection")));
+                options => options.UseSqlServer(_config.GetConnectionString("LeaveApplicationDBConnection")));
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
@@ -37,9 +37,9 @@ namespace NaijaFarmers
             services.Configure<IdentityOptions>(
                 options =>
                 {
-                    options.Password.RequiredLength = 5;
+                    options.Password.RequiredLength = 1;
                     options.Password.RequiredUniqueChars = 0;
-                    options.Password.RequireDigit = true;
+                    options.Password.RequireDigit = false;
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
                 }
@@ -52,13 +52,13 @@ namespace NaijaFarmers
             });
 
 
-            services.AddAuthorization(config =>
-            {
-                config.AddPolicy("Claim.DOB", policyBuilder =>
-                {
-                    policyBuilder.RequireCustomClaim(ClaimTypes.DateOfBirth);
-                });
-            });
+            //services.AddAuthorization(config =>
+            //{
+            //    config.AddPolicy("Claim.DOB", policyBuilder =>
+            //    {
+            //        policyBuilder.RequireCustomClaim(ClaimTypes.DateOfBirth);
+            //    });
+            //});
 
         
             services.AddMvc();

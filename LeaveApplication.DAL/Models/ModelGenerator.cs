@@ -3,9 +3,9 @@
 // 
 // The following connection settings were used to generate this file
 // 
-//     Connection String Name: `NaijaFarmerDBConnection`
+//     Connection String Name: `LeaveApplicationDBConnection`
 //     Provider:               `System.Data.SqlClient`
-//     Connection String:      `Data Source=localhost;initial catalog=NaijaFarmerDB;User ID=sa;Password=******; Integrated Security=true`
+//     Connection String:      `Data Source=DESKTOP-KG7SLVL;initial catalog=LeaveApplicationDB;Integrated Security=true`
 //     Include Views:          `True`
 
 using System;
@@ -13,7 +13,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 
-namespace NaijaFarmers.DAL.Models
+namespace LeaveApplication.DAL.Models
 {
     /// <summary>
     /// A class which represents the __EFMigrationsHistory table.
@@ -24,6 +24,21 @@ namespace NaijaFarmers.DAL.Models
 		[Key]
 		public virtual string MigrationId { get; set; }
 		public virtual string ProductVersion { get; set; }
+	}
+
+    /// <summary>
+    /// A class which represents the StaffInformation table.
+    /// </summary>
+	[Table("StaffInformation")]
+	public partial class StaffInformation
+	{
+		[Key]
+		public virtual int Id { get; set; }
+		public virtual string FirstName { get; set; }
+		public virtual string LastName { get; set; }
+		public virtual string StaffId { get; set; }
+		public virtual int? LineManager { get; set; }
+		public virtual int? LeaveBalance { get; set; }
 	}
 
 }
